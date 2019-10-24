@@ -129,7 +129,9 @@ function insideout() {
 
 	function setNumberOfLinesByWidth() {
 		
-		numberOfLines = Math.floor((window.innerWidth - 300) * 0.35) + 100;
+		// numberOfLines = Math.floor((window.innerWidth - 300) * 0.35) + 100;
+		// numberOfLines = Math.floor((window.innerWidth - 300) * 0.1) + 100;
+		numberOfLines = Math.floor((window.innerWidth - 300) / 10) + 50;
 		// console.log('n of lines: ' + numberOfLines);
 	}
 
@@ -222,7 +224,19 @@ function insideout() {
 		this.rndx = Math.random();
 		this.rndy = Math.random();
 
-		var colors = ['#D5FBFF', '#9FBCBF', '#647678', '#59D8E5'];
+		// var colors = ['#D5FBFF', '#9FBCBF', '#647678', '#59D8E5'];
+		var colors = [];
+
+		var howManyColors = 4;
+
+		for (var i = 0; i < howManyColors; i++) {
+			var r = Math.floor(Math.random() * 255);
+			var g = Math.floor(Math.random() * 255);
+			var b = Math.floor(Math.random() * 255);
+
+			colors.push( 'rgb(' + r + ',' + g + ',' + b + ')' );
+		}
+
 		this.ballColor = colors[getRandomInt(0, colors.length)];
 
 		var r = Math.pow(Math.pow(x - x0, 2) + Math.pow(y - y0, 2), .5);
@@ -274,6 +288,7 @@ function insideout() {
 			this.dy *= 1.03;
 			this.dxdyPower *= lineSpeed; // lineSpeed
 			this.radius *= 1.01;
+			// this.radius *= 1.02;
 		};
 
 		this.rotateAroundTheCenter = function (t) {
@@ -313,6 +328,7 @@ function insideout() {
 
 		if (t < numberOfLines) {
 			var radius = .2 + Math.random() * .2;
+			// var radius = .2;
 			var x = Math.random() * x0 * 2;
 			var y = Math.random() * y0 * 2;
 			lines.push(new Line(x, y, radius));
@@ -372,6 +388,7 @@ function insideout() {
 			lastWindowWidth = window.innerWidth;
 		}
 	});
+
 }
 
 insideout();
