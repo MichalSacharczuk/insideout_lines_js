@@ -42,11 +42,11 @@ function insideout() {
 	var lineSpeedInput = document.getElementById('line-speed');
 
 
-	var changeFunctionParametersBtn = document.getElementById('change-function-parameters');
+	var changeParametersBtn = document.getElementById('change-function-parameters');
 
-	function changeBtnClick() {
+	function changeParameters() {
 		console.log(' ');
-		console.log('changeFunctionParametersBtn clicked');
+		console.log('changeParametersBtn clicked');
 
 
 		numberOfLines = numberOfLinesInput.value > 500 ? 500 : numberOfLinesInput.value;
@@ -98,16 +98,16 @@ function insideout() {
 		initGlobalVariables();
 	}
 
-	function changeFunctionParameters() {
+	function launchChangeParameters() {
 
 		window.addEventListener('keyup', function (e) {
 			if (e.key == 'Enter') {
 				console.log(e.key);
-				changeBtnClick();
+				changeParameters();
 			}
 		});
 		
-		changeFunctionParametersBtn.addEventListener('click', changeBtnClick);
+		changeParametersBtn.addEventListener('click', changeParameters);
 	}
 
 	function initInputs() {
@@ -158,7 +158,7 @@ function insideout() {
 	initGlobalVariables();
 	setNumberOfLinesByWidth();
 	initInputs();
-	changeFunctionParameters();
+	launchChangeParameters();
 
 	function getAngleOfXYFromTheCenter(x, y, x0, y0) {
 		var dx = x - x0;
