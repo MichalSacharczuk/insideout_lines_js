@@ -32,7 +32,7 @@ function insideout() {
 	var currentSpin;
 
 	var numberOfLines = void 0;
-	var spinSpeed = 5;
+	var spinSpeed = 3;
 	var fillStyleOpacity = 0.5;
 	var lineSpeed = 1.03;
 
@@ -49,7 +49,17 @@ function insideout() {
 		console.log('changeParametersBtn clicked');
 
 
-		numberOfLines = numberOfLinesInput.value > 500 ? 500 : numberOfLinesInput.value;
+		if (numberOfLinesInput.value < 1) {
+			numberOfLines = 1;
+			numberOfLinesInput.value = 1;
+		}
+		else if (numberOfLinesInput.value > 250) {
+			numberOfLines = 250;
+			numberOfLinesInput.value = 250;
+		}
+		else {
+			numberOfLines = numberOfLinesInput.value;
+		}
 		console.log('numberOfLines: ' + numberOfLines);
 
 
@@ -57,9 +67,9 @@ function insideout() {
 			spinSpeed = 0;
 			spinSpeedInput.value = 0;
 		}
-		else if (spinSpeedInput.value > 50) {
-			spinSpeed = 50;
-			spinSpeedInput.value = 50;
+		else if (spinSpeedInput.value > 10) {
+			spinSpeed = 10;
+			spinSpeedInput.value = 10;
 		}
 		else {
 			spinSpeed = spinSpeedInput.value;
@@ -69,7 +79,7 @@ function insideout() {
 
 		if (lineLengthInput.value < 0) {
 			fillStyleOpacity = 1;
-			lineLengthInput.value = 1;
+			lineLengthInput.value = 0;
 		}
 		else if (lineLengthInput.value > 10) {
 			fillStyleOpacity = 0;
@@ -186,7 +196,7 @@ function insideout() {
 			mouseX = [];
 			mouseY = [];
 
-			totalSpinFactor += mouse.spinFactor * 0.002 * spinSpeed;
+			totalSpinFactor += mouse.spinFactor * 0.003 * spinSpeed;
 		}
 	}
 
