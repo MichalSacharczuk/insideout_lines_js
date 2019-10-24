@@ -31,12 +31,12 @@ function insideout() {
 	var totalSpinFactor;
 	var currentSpin;
 
-	var numberOfLines = void 0;
+	var linesNumber = void 0;
 	var spinSpeed = 3;
 	var fillStyleOpacity = 0.5;
 	var lineSpeed = 1.03;
 
-	var numberOfLinesInput = document.getElementById('number-of-lines');
+	var linesNumberInput = document.getElementById('lines-number');
 	var spinSpeedInput = document.getElementById('spin-speed');
 	var lineLengthInput = document.getElementById('line-length');
 	var lineSpeedInput = document.getElementById('line-speed');
@@ -46,21 +46,22 @@ function insideout() {
 
 	function changeParameters() {
 		console.log(' ');
-		console.log('changeParametersBtn clicked');
+		// console.log('changeParametersBtn clicked');
+		console.log('parameters changed!');
 
 
-		if (numberOfLinesInput.value < 1) {
-			numberOfLines = 1;
-			numberOfLinesInput.value = 1;
+		if (linesNumberInput.value < 1) {
+			linesNumber = 1;
+			linesNumberInput.value = 1;
 		}
-		else if (numberOfLinesInput.value > 250) {
-			numberOfLines = 250;
-			numberOfLinesInput.value = 250;
+		else if (linesNumberInput.value > 250) {
+			linesNumber = 250;
+			linesNumberInput.value = 250;
 		}
 		else {
-			numberOfLines = numberOfLinesInput.value;
+			linesNumber = linesNumberInput.value;
 		}
-		console.log('numberOfLines: ' + numberOfLines);
+		console.log('linesNumber: ' + linesNumber);
 
 
 		if (spinSpeedInput.value < 0) {
@@ -106,6 +107,11 @@ function insideout() {
 
 
 		initGlobalVariables();
+
+		if (stopClicked) {
+			stopClicked = false;
+			startStopAnimation();
+		}
 	}
 
 	function launchChangeParameters() {
@@ -122,8 +128,8 @@ function insideout() {
 
 	function initInputs() {
 		
-		numberOfLinesInput.value = numberOfLines;
-		// console.log('numberOfLinesInput.value: ' + numberOfLinesInput.value);
+		linesNumberInput.value = linesNumber;
+		// console.log('linesNumberInput.value: ' + linesNumberInput.value);
 
 		spinSpeedInput.value = spinSpeed;
 		// console.log('spinSpeedInput.value: ' + spinSpeedInput.value);
@@ -134,15 +140,15 @@ function insideout() {
 		lineSpeedInput.value = Number(lineSpeed - 1).toFixed(3) * 100;
 		console.log('lineSpeedInput.value: ' + lineSpeedInput.value);
 
-		numberOfLinesInput.focus();
+		linesNumberInput.focus();
 	}
 
 	function setNumberOfLinesByWidth() {
 		
-		// numberOfLines = Math.floor((window.innerWidth - 300) * 0.35) + 100;
-		// numberOfLines = Math.floor((window.innerWidth - 300) * 0.1) + 100;
-		numberOfLines = Math.floor((window.innerWidth - 300) / 10) + 50;
-		// console.log('n of lines: ' + numberOfLines);
+		// linesNumber = Math.floor((window.innerWidth - 300) * 0.35) + 100;
+		// linesNumber = Math.floor((window.innerWidth - 300) * 0.1) + 100;
+		linesNumber = Math.floor((window.innerWidth - 300) / 10) + 50;
+		// console.log('n of lines: ' + linesNumber);
 	}
 
 	function initGlobalVariables() {
@@ -183,7 +189,7 @@ function insideout() {
 		} else {
 			mouseX.push(event.touches[0].clientX);
 			mouseY.push(event.touches[0].clientY);
-			spinSpeed++;
+			// spinSpeed++;
 		}
 		if (mouseX.length > 1) {
 			mouse.angle1 = getAngleOfXYFromTheCenter(mouseX[0], mouseY[0], x0, y0);
@@ -336,7 +342,7 @@ function insideout() {
 
 		if (t == 0) lines = [];
 
-		if (t < numberOfLines) {
+		if (t < linesNumber) {
 			var radius = .2 + Math.random() * .2;
 			// var radius = .2;
 			var x = Math.random() * x0 * 2;
@@ -365,9 +371,23 @@ function insideout() {
 
 	var animationWorking = void 0;
 	var animationWasWorking = void 0;
+	var stopClicked = false;
+	var startStopBtn = document.getElementById('stop-animation');
+
+	function switchStartStopBtn() {
+		startStopBtn.innerText  = stopClicked ? 'Resume animation' : 'Stop animation';
+	}
+
+	startStopBtn.addEventListener('click', function () {
+		stopClicked = stopClicked ? false : true;
+		startStopAnimation();
+		switchStartStopBtn();
+	});
 
 	function startStopAnimation() {
-		if (document.body.scrollTop > insideoutLines.height || document.documentElement.scrollTop > insideoutLines.height) {
+		if (document.body.scrollTop > insideoutLines.height 
+			|| document.documentElement.scrollTop > insideoutLines.height 
+			|| stopClicked) {
 			animationWorking = false;
 			if (animationWorking !== animationWasWorking) {
 				paused = true;
