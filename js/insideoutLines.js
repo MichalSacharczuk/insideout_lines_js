@@ -34,15 +34,16 @@ function insideout() {
 	var linesNumber = void 0;
 	var spinSpeed = 5;
 	var fillStyleOpacity = 0.5;
-	var lineSpeed = 1.05;
+	// var lineSpeed = 1.05;
+	var lineSpeed = 1.06;
 	var lineWidth = 0.5;
-	// var relativeSpinFactor = 1; // ??????????????????????????????
 
 	var linesNumberInput = document.getElementById('lines-number');
 	var spinSpeedInput = document.getElementById('spin-speed');
 	var lineLengthInput = document.getElementById('line-length');
 	var lineSpeedInput = document.getElementById('line-speed');
 	var lineWidthInput = document.getElementById('line-width');
+	var changeParametersBtn = document.getElementById('change-function-parameters');
 
 	function calculateRadiusMultiplier() {
 		return 1.003 + 0.002 * ((lineSpeed - 1) * 100 - 1);
@@ -51,7 +52,16 @@ function insideout() {
 	var radiusMultiplier = calculateRadiusMultiplier();
 	// console.log('radiusMultiplier:::: ' + radiusMultiplier);
 
-	var changeParametersBtn = document.getElementById('change-function-parameters');
+	function calculateRelativeSpinFactor() {
+		var lineSpeedInputValue = (lineSpeed - 1.01) * 100;
+		// var result = 0.0015 - 0.000031 * (lineSpeedInputValue - 1) * (lineSpeedInputValue - 19);
+		var result = 0.0018 - 0.000027 * (lineSpeedInputValue - 1) * (lineSpeedInputValue - 19);
+		return result.toFixed(4);
+	}
+	
+	var relativeSpinFactor = calculateRelativeSpinFactor();
+	console.log('relativeSpinFactor:::: ' + relativeSpinFactor);
+
 
 	function changeParameters() {
 		console.log(' ');
@@ -102,15 +112,18 @@ function insideout() {
 
 
 		if (lineSpeedInput.value < 1) {
-			lineSpeed = 1.01;
+			// lineSpeed = 1.01;
+			lineSpeed = 1.02;
 			lineSpeedInput.value = 1;
 		}
 		else if (lineSpeedInput.value > 10) {
-			lineSpeed = 1.1;
+			// lineSpeed = 1.1;
+			lineSpeed = 1.11;
 			lineSpeedInput.value = 10;
 		}
 		else {
-			lineSpeed = 1 + lineSpeedInput.value / 100;
+			// lineSpeed = 1 + lineSpeedInput.value / 100;
+			lineSpeed = 1.01 + lineSpeedInput.value / 100;
 		}
 		console.log('lineSpeed: ' + lineSpeed);
 
@@ -131,6 +144,9 @@ function insideout() {
 
 		radiusMultiplier = calculateRadiusMultiplier();
 		console.log('radiusMultiplier: ' + radiusMultiplier);
+
+		relativeSpinFactor = calculateRelativeSpinFactor();
+		console.log('relativeSpinFactor: ' + relativeSpinFactor);
 
 
 		initGlobalVariables();
@@ -164,7 +180,8 @@ function insideout() {
 		lineLengthInput.value = fillStyleOpacity * 10;
 		// console.log('lineLengthInput.value: ' + lineLengthInput.value);
 
-		lineSpeedInput.value = Number(lineSpeed - 1).toFixed(3) * 100;
+		// lineSpeedInput.value = Number(lineSpeed - 1).toFixed(2) * 100;
+		lineSpeedInput.value = Number(lineSpeed - 1.01).toFixed(2) * 100;
 		// console.log('lineSpeedInput.value: ' + lineSpeedInput.value);
 
 		lineWidthInput.value = lineWidth * 10;
@@ -230,12 +247,14 @@ function insideout() {
 			mouse.spinFactor = Math.sin(mouse.angleChange);
 			if (Math.abs(mouse.spinFactor) > 0.01) mouse.spinFactor = 0.01 * sign(mouse.spinFactor);
 			// co ta linia robi???
-			
+
 			mouseX = [];
 			mouseY = [];
 
-			totalSpinFactor += mouse.spinFactor * 0.003 * spinSpeed;
-			// totalSpinFactor += mouse.spinFactor * 0.0012 * spinSpeed; // ss=10, ls=1
+			// totalSpinFactor += mouse.spinFactor * 0.003 * spinSpeed;
+			// totalSpinFactor += mouse.spinFactor * 0.0015 * spinSpeed; // ss=10, ls=1 // 15-18
+			// totalSpinFactor += mouse.spinFactor * 0.004 * spinSpeed; // ss=10, ls=10
+			totalSpinFactor += mouse.spinFactor * relativeSpinFactor * spinSpeed;
 		}
 	}
 
