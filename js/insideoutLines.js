@@ -34,9 +34,18 @@ function insideout() {
 	var linesNumber = void 0;
 	var spinSpeed = 5;
 	var fillStyleOpacity = 0.5;
-	// var lineSpeed = 1.05;
 	var lineSpeed = 1.06;
 	var lineWidth = 0.5;
+
+	var colors = [];
+	var howManyColors = 3;
+
+	for (var i = 0; i < howManyColors; i++) {
+		var r = Math.floor(Math.random() * 255);
+		var g = Math.floor(Math.random() * 255);
+		var b = Math.floor(Math.random() * 255);
+		colors.push( 'rgb(' + r + ',' + g + ',' + b + ')' );
+	}
 
 	var linesNumberInput = document.getElementById('lines-number');
 	var spinSpeedInput = document.getElementById('spin-speed');
@@ -54,7 +63,6 @@ function insideout() {
 
 	function calculateRelativeSpinFactor() {
 		var lineSpeedInputValue = (lineSpeed - 1.01) * 100;
-		// var result = 0.0015 - 0.000031 * (lineSpeedInputValue - 1) * (lineSpeedInputValue - 19);
 		var result = 0.0018 - 0.000027 * (lineSpeedInputValue - 1) * (lineSpeedInputValue - 19);
 		return result.toFixed(4);
 	}
@@ -112,17 +120,14 @@ function insideout() {
 
 
 		if (lineSpeedInput.value < 1) {
-			// lineSpeed = 1.01;
 			lineSpeed = 1.02;
 			lineSpeedInput.value = 1;
 		}
 		else if (lineSpeedInput.value > 10) {
-			// lineSpeed = 1.1;
 			lineSpeed = 1.11;
 			lineSpeedInput.value = 10;
 		}
 		else {
-			// lineSpeed = 1 + lineSpeedInput.value / 100;
 			lineSpeed = 1.01 + lineSpeedInput.value / 100;
 		}
 		console.log('lineSpeed: ' + lineSpeed);
@@ -180,7 +185,6 @@ function insideout() {
 		lineLengthInput.value = fillStyleOpacity * 10;
 		// console.log('lineLengthInput.value: ' + lineLengthInput.value);
 
-		// lineSpeedInput.value = Number(lineSpeed - 1).toFixed(2) * 100;
 		lineSpeedInput.value = Number(lineSpeed - 1.01).toFixed(2) * 100;
 		// console.log('lineSpeedInput.value: ' + lineSpeedInput.value);
 
@@ -193,8 +197,6 @@ function insideout() {
 
 	function setNumberOfLinesByWidth() {
 		
-		// linesNumber = Math.floor((window.innerWidth - 300) * 0.35) + 100;
-		// linesNumber = Math.floor((window.innerWidth - 300) * 0.1) + 100;
 		linesNumber = Math.floor((window.innerWidth - 300) / 10) + 50;
 		// console.log('n of lines: ' + linesNumber);
 	}
@@ -251,9 +253,6 @@ function insideout() {
 			mouseX = [];
 			mouseY = [];
 
-			// totalSpinFactor += mouse.spinFactor * 0.003 * spinSpeed;
-			// totalSpinFactor += mouse.spinFactor * 0.0015 * spinSpeed; // ss=10, ls=1 // 15-18
-			// totalSpinFactor += mouse.spinFactor * 0.004 * spinSpeed; // ss=10, ls=10
 			totalSpinFactor += mouse.spinFactor * relativeSpinFactor * spinSpeed;
 		}
 	}
@@ -291,19 +290,6 @@ function insideout() {
 
 		this.rndx = Math.random();
 		this.rndy = Math.random();
-
-		// var colors = ['#D5FBFF', '#9FBCBF', '#647678', '#59D8E5'];
-		var colors = [];
-
-		var howManyColors = 4;
-
-		for (var i = 0; i < howManyColors; i++) {
-			var r = Math.floor(Math.random() * 255);
-			var g = Math.floor(Math.random() * 255);
-			var b = Math.floor(Math.random() * 255);
-
-			colors.push( 'rgb(' + r + ',' + g + ',' + b + ')' );
-		}
 
 		this.ballColor = colors[getRandomInt(0, colors.length)];
 
@@ -408,7 +394,6 @@ function insideout() {
 		totalSpinFactor -= sign(totalSpinFactor) * 0.00001;
 		totalSpinFactor *= 0.995;
 		currentSpin += (totalSpinFactor - currentSpin) * 0.05;
-		// currentSpin += (totalSpinFactor - currentSpin) * 0.15;
 
 		for (var i = lines.length - 1; i >= 0; i--) {
 			lines[i].rotateAroundTheCenter(t);
